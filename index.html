@@ -57,6 +57,57 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* =========================================
+           THANH TÌM KIẾM SẢN PHẨM & TIÊU ĐỀ SECTION
+           ========================================= */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 2em;
+            color: var(--header-bg);
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .search-box:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+        }
+        .search-box input {
+            border: none;
+            padding: 10px 15px;
+            outline: none;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.1em;
+            width: 250px;
+            color: var(--text);
+        }
+        .search-box button {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.1em;
+        }
+        .search-box button:hover {
+            background: #c0392b;
+        }
+
         /* GIAO DIỆN TRANG CHỦ (HERO SECTION) */
         #home.hero-section {
             max-width: 1600px; 
@@ -87,7 +138,7 @@
         .hero-btn:hover { background: #c0392b; transform: scale(1.05); box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4); }
 
         /* DANH SÁCH SẢN PHẨM */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 10px; }
         
         .lego-card { background: var(--card-bg); padding: 20px; border-radius: 20px; border: 2px solid #ddd; transition: all 0.4s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .lego-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
@@ -172,7 +223,6 @@
             nav#navbar {
                 display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
                 width: 70%; max-width: 260px;
-                /* Cập nhật màu nền popup menu thành f0f7ff */
                 background: #f0f7ff; 
                 padding: 40px 20px 30px; border: 4px solid var(--header-bg); border-radius: 20px;
                 z-index: 1001; flex-direction: column; gap: 15px;
@@ -218,6 +268,10 @@
 
         @media (max-width: 480px) { 
             .grid { grid-template-columns: 1fr; }
+            /* Căn lại search bar trên mobile */
+            .section-header { flex-direction: column; align-items: stretch; gap: 15px; }
+            .search-box { width: 100%; }
+            .search-box input { flex: 1; width: auto; }
         }
     </style>
 </head>
@@ -237,6 +291,7 @@
         </nav>
     </header>
 
+    <!-- TRANG CHỦ -->
     <div id="home" class="page active hero-section">
         <div class="hero-overlay">
             <div class="hero-content">
@@ -247,8 +302,17 @@
         </div>
     </div>
 
+    <!-- TRANG SẢN PHẨM -->
     <div id="products" class="page">
-        <h2>Danh sách sản phẩm</h2>
+        <!-- HEADER CÓ TÌM KIẾM -->
+        <div class="section-header">
+            <h2>Danh sách sản phẩm</h2>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm LEGO..." oninput="searchProducts('product-list', 'product-pagination-controls', this)">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+
         <div class="grid" id="product-list">
             
             <div class="lego-card">
@@ -688,8 +752,17 @@
         <div id="product-pagination-controls" class="pagination-container"></div>
     </div>
 
+    <!-- TRANG HOT & SALE -->
     <div id="hot-sale" class="page">
-        <h2>Sản phẩm Hot & Sale</h2>
+        <!-- HEADER CÓ TÌM KIẾM CHO SALE -->
+        <div class="section-header">
+            <h2>Sản phẩm Hot & Sale</h2>
+            <div class="search-box">
+                <input type="text" placeholder="Tìm kiếm LEGO..." oninput="searchProducts('sale-list', 'sale-pagination-controls', this)">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+
         <div class="grid" id="sale-list">
             
             <div class="lego-card">
@@ -917,6 +990,7 @@
         <div id="sale-pagination-controls" class="pagination-container"></div>
     </div>
 
+    <!-- TRANG CHI TIẾT SẢN PHẨM -->
     <main id="detail-page" class="page">
         <div class="container">
             <button class="back-to-home-btn" onclick="navigateToHome()"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</button>
@@ -968,6 +1042,7 @@
         </div>
     </main>
 
+    <!-- FOOTER PRO -->
     <footer>
         <div class="container footer-grid-pro">
             <div class="footer-col brand">
@@ -983,6 +1058,7 @@
                 <ul class="footer-links-list">
                     <li><a href="#" onclick="navigateToHomeAndCloseMenu(event)">Trang chủ</a></li>
                     <li><a href="#" onclick="showPage('products'); event.preventDefault();">Tất cả sản phẩm</a></li>
+                    <li><a href="#">Chủ đề LEGO</a></li>
                     <li><a href="#" onclick="showPage('hot-sale'); event.preventDefault();">Hàng mới về</a></li>
                 </ul>
             </div>
@@ -1001,6 +1077,7 @@
         </div>
     </footer>
 
+    <!-- SCRIPT CHỨC NĂNG -->
     <script>
         let previousPageId = 'products'; 
 
@@ -1077,7 +1154,7 @@
         }
 
         // ==========================================
-        // LOGIC PHÂN TRANG DÙNG CHUNG
+        // LOGIC PHÂN TRANG & TÌM KIẾM
         // ==========================================
         const ITEMS_PER_PAGE = 8;
         const paginationState = {
@@ -1085,26 +1162,60 @@
             'sale-list': 1
         };
 
+        // Hàm tìm kiếm trực tiếp
+        function searchProducts(listId, paginationId, inputElement) {
+            const searchTerm = inputElement.value.toLowerCase().trim();
+            const listContainer = document.getElementById(listId);
+            if (!listContainer) return;
+
+            const allCards = listContainer.querySelectorAll('.lego-card');
+            
+            allCards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                // Nếu tên sản phẩm chứa từ khóa -> hiển thị (bỏ class bị lọc)
+                if (title.includes(searchTerm)) {
+                    card.classList.remove('filtered-out');
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+
+            // Sau khi lọc xong, render lại danh sách từ trang 1
+            renderPageList(listId, paginationId, 1, true);
+        }
+
+        // Hàm hiển thị phân trang
         function renderPageList(listId, paginationId, page, isInit = false) {
             const listContainer = document.getElementById(listId);
             if (!listContainer) return;
             
-            const cards = Array.from(listContainer.querySelectorAll('.lego-card'));
-            if (cards.length === 0) return;
+            const allCards = Array.from(listContainer.querySelectorAll('.lego-card'));
+            
+            // Ẩn tất cả thẻ trước
+            allCards.forEach(card => card.style.display = 'none');
+            
+            // Chỉ lấy những thẻ không bị thanh tìm kiếm loại bỏ
+            const visibleCards = allCards.filter(card => !card.classList.contains('filtered-out'));
 
-            const totalPages = Math.ceil(cards.length / ITEMS_PER_PAGE);
+            const paginationContainer = document.getElementById(paginationId);
+            
+            if (visibleCards.length === 0) {
+                if (paginationContainer) paginationContainer.innerHTML = ''; // Xóa nút bấm nếu trống
+                return;
+            }
+
+            const totalPages = Math.ceil(visibleCards.length / ITEMS_PER_PAGE);
             
             if (page < 1) page = 1;
             if (page > totalPages) page = totalPages;
             
             paginationState[listId] = page;
 
-            cards.forEach(card => card.style.display = 'none');
-
             const start = (page - 1) * ITEMS_PER_PAGE;
             const end = start + ITEMS_PER_PAGE;
-            for (let i = start; i < end && i < cards.length; i++) {
-                cards[i].style.display = 'flex';
+            
+            for (let i = start; i < end && i < visibleCards.length; i++) {
+                visibleCards[i].style.display = 'flex';
             }
 
             renderPaginationControls(listId, paginationId, totalPages, page);
@@ -1117,6 +1228,7 @@
             }
         }
 
+        // Hàm vẽ nút phân trang
         function renderPaginationControls(listId, paginationId, totalPages, currentPage) {
             const container = document.getElementById(paginationId);
             if (!container) return;
