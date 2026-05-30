@@ -22,9 +22,29 @@
         body { font-family: 'Roboto Condensed', sans-serif; margin: 0; background-color: var(--bg-color); color: var(--text); }
         h1, h2, h3, nav a, .btn-buy, .btn-buy-now, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-        header { background: var(--header-bg); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 5px solid var(--accent); position: sticky; top: 0; z-index: 100; }
+        /* =========================================
+           HEADER & NAV (ĐÃ TỐI ƯU CHIỀU CAO & MOBILE)
+           ========================================= */
+        header { 
+            background: var(--header-bg); 
+            padding: 8px 50px; /* Giảm padding để thu gọn chiều cao */
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            border-bottom: 4px solid var(--accent); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .logo-area h1 { margin: 0; font-size: 1.6em; } /* Xóa lề mặc định của H1 để Header không bị phình to */
+        
+        nav { display: flex; align-items: center; }
         nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 700; cursor: pointer; outline: none; transition: 0.3s; }
         nav a:hover, nav a:focus { color: var(--accent); }
+
+        .menu-toggle { display: none; font-size: 1.5em; cursor: pointer; color: white; transition: 0.3s; }
+        .menu-toggle:hover { color: var(--accent); }
 
         /* LỚP PAGE CƠ BẢN */
         .page { display: none; padding: 20px; max-width: 1100px; margin: auto; min-height: 50vh; animation: fadeIn 0.4s ease; }
@@ -32,12 +52,10 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* =========================================
-           GIAO DIỆN TRANG CHỦ (HERO SECTION MỚI)
-           ========================================= */
+        /* GIAO DIỆN TRANG CHỦ (HERO SECTION) */
         #home.hero-section {
-            max-width: 1600px; /* Phá vỡ giới hạn 1100px của .page */
-            width: 95%;        /* Chiếm 95% chiều rộng màn hình */
+            max-width: 1600px; 
+            width: 95%;        
             background-image: url('https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -45,84 +63,36 @@
             overflow: hidden;
             position: relative;
             min-height: 85vh;
-            margin: 20px auto 0; /* Căn giữa màn hình */
+            margin: 20px auto 0; 
             border: 4px solid var(--accent);
             box-shadow: 0 15px 30px rgba(0,0,0,0.3);
             padding: 0;
         }
-        
-        #home.hero-section.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        #home.hero-section.active { display: flex; align-items: center; justify-content: center; }
 
         .hero-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(26, 26, 46, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            color: white;
-            text-align: center;
-            max-width: 850px;
-            padding: 20px;
-        }
-        .hero-content h1 {
-            font-size: 4.5em;
-            color: var(--accent);
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
-        }
-        .hero-content p {
-            font-size: 1.4em;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            color: #f8fafc;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-        .hero-btn {
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            padding: 15px 40px; 
-            font-size: 1.2em; 
-            background: var(--button-bg); 
-            color: white; 
-            border: none; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .hero-btn:hover {
-            background: #c0392b;
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4);
-        }
+        .hero-content { position: relative; z-index: 1; color: white; text-align: center; max-width: 850px; padding: 20px; }
+        .hero-content h1 { font-size: 4.5em; color: var(--accent); margin-bottom: 20px; text-shadow: 3px 3px 6px rgba(0,0,0,0.6); }
+        .hero-content p { font-size: 1.4em; line-height: 1.6; margin-bottom: 40px; color: #f8fafc; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 40px; font-size: 1.2em; background: var(--button-bg); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; font-family: 'Oswald', sans-serif; text-transform: uppercase; transition: 0.3s; }
+        .hero-btn:hover { background: #c0392b; transform: scale(1.05); box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4); }
 
         /* DANH SÁCH SẢN PHẨM */
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 20px; }
-        
         .lego-card { background: var(--card-bg); padding: 20px; border-radius: 20px; border: 2px solid #ddd; transition: all 0.4s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .lego-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         .lego-img-box { cursor: pointer; text-align: center; overflow: hidden; border-radius: 15px; }
         .lego-img-box img { width: 100%; height: 200px; object-fit: contain; transition: transform 0.4s; }
         .lego-img-box:hover img { transform: scale(1.05); }
-        
         .lego-info h3 { font-size: 1.2em; margin: 15px 0 5px; color: var(--header-bg); line-height: 1.3; }
         .lego-author { color: #64748b; font-size: 0.95em; margin: 0 0 15px; font-weight: bold; }
         .price-box { margin-bottom: 15px; text-align: center; display: flex; flex-direction: column; gap: 5px; }
         .current-price { color: var(--button-bg); font-weight: 700; font-size: 1.4em; font-family: 'Oswald', sans-serif; }
         .old-price { color: var(--gray); text-decoration: line-through; font-size: 0.9em; font-weight: bold; }
-        
         .sale-badge { position: absolute; top: -10px; right: -10px; background: var(--button-bg); color: white; padding: 5px 10px; border-radius: 10px; font-weight: bold; font-family: 'Oswald', sans-serif; font-size: 0.9em; box-shadow: 0 4px 10px rgba(231,76,60,0.3); z-index: 10; }
 
         .cta-box { display: flex; gap: 10px; }
@@ -176,9 +146,26 @@
         .footer-links-list a:hover { color: var(--accent); transform: translateX(5px); }
         .footer-bottom-pro { text-align: center; margin-top: 60px !important; padding-top: 25px !important; border-top: 1px solid #334155 !important; font-size: 0.95em; letter-spacing: 1px; }
 
-        /* RESPONSIVE GRID */
+        /* RESPONSIVE & MOBILE MENU */
         @media (max-width: 992px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+        
         @media (max-width: 768px) { 
+            header { padding: 10px 20px; }
+            .menu-toggle { display: block; } /* Hiện nút Hamburger */
+            nav {
+                display: none; /* Ẩn menu mặc định */
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--header-bg);
+                border-top: 1px solid rgba(255,255,255,0.1);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            }
+            nav.active { display: flex; } /* Hiện menu khi có class active */
+            nav a { padding: 15px; margin: 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            
             .grid { grid-template-columns: repeat(2, 1fr); }
             .detail-wrapper { flex-direction: column; }
             .modal-gallery { max-width: 100%; }
@@ -189,6 +176,7 @@
             .hero-content h1 { font-size: 3em; }
             .hero-content p { font-size: 1.1em; }
         }
+
         @media (max-width: 480px) { 
             .grid { grid-template-columns: 1fr; }
         }
@@ -198,14 +186,16 @@
 
     <header>
         <div class="logo-area"><h1>🏰 HMB AGENCY</h1></div>
-        <nav>
+        
+        <div class="menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></div>
+        
+        <nav id="navbar">
             <a tabindex="0" onclick="showPage('home')">Trang chủ</a>
             <a tabindex="0" onclick="showPage('products')">Sản phẩm</a>
             <a tabindex="0" onclick="showPage('hot-sale')">Hot & Sale</a>
         </nav>
     </header>
 
-    <!-- TRANG CHỦ (HERO SECTION ĐÃ ĐƯỢC LÀM LỚN VÀ CHUẨN LOGIC) -->
     <div id="home" class="page active hero-section">
         <div class="hero-overlay">
             <div class="hero-content">
@@ -216,7 +206,6 @@
         </div>
     </div>
 
-    <!-- TRANG SẢN PHẨM -->
     <div id="products" class="page">
         <h2>Danh sách sản phẩm</h2>
         <div class="grid" id="product-list">
@@ -658,7 +647,6 @@
         <div id="product-pagination-controls" class="pagination-container"></div>
     </div>
 
-    <!-- TRANG HOT & SALE -->
     <div id="hot-sale" class="page">
         <h2>Sản phẩm Hot & Sale</h2>
         <div class="grid" id="sale-list">
@@ -888,7 +876,6 @@
         <div id="sale-pagination-controls" class="pagination-container"></div>
     </div>
 
-    <!-- TRANG CHI TIẾT SẢN PHẨM -->
     <main id="detail-page" class="page">
         <div class="container">
             <button class="back-to-home-btn" onclick="navigateToHome()"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</button>
@@ -940,7 +927,6 @@
         </div>
     </main>
 
-    <!-- FOOTER PRO -->
     <footer>
         <div class="container footer-grid-pro">
             <div class="footer-col brand">
@@ -975,15 +961,22 @@
         </div>
     </footer>
 
-    <!-- SCRIPT CHỨC NĂNG -->
     <script>
         let previousPageId = 'products'; 
 
-        // LOGIC CHUYỂN TRANG
+        // LOGIC CHUYỂN TRANG & MENU MOBILE
+        function toggleMobileMenu() {
+            document.getElementById('navbar').classList.toggle('active');
+        }
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Tự động ẩn menu mobile (nếu đang mở) khi chọn trang
+            const nav = document.getElementById('navbar');
+            if (nav) nav.classList.remove('active');
         }
 
         function navigateToHome() {
@@ -1094,7 +1087,6 @@
             container.innerHTML = html;
         }
 
-        // CHẠY CÁC HÀM KHỞI TẠO KHI LOAD XONG WEB
         document.addEventListener("DOMContentLoaded", () => {
             renderPageList('product-list', 'product-pagination-controls', 1, true);
             renderPageList('sale-list', 'sale-pagination-controls', 1, true);
