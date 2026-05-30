@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HMB Agency - LEGO Block World</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --bg-color: #f0f7ff;
@@ -13,77 +15,182 @@
             --accent: #ffcc00;
             --button-bg: #e74c3c;
             --text: #2c3e50;
+            --gray: #94a3b8;
+            --primary-color: #3b82f6;
         }
 
         body { font-family: 'Roboto Condensed', sans-serif; margin: 0; background-color: var(--bg-color); color: var(--text); }
-        h1, h2, h3, nav a, .btn-buy, .btn-buy-now { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+        h1, h2, h3, nav a, .btn-buy, .btn-buy-now, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 
-        header { background: var(--header-bg); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 5px solid var(--accent); }
-        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 700; cursor: pointer; outline: none; }
+        header { background: var(--header-bg); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 5px solid var(--accent); position: sticky; top: 0; z-index: 100; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 700; cursor: pointer; outline: none; transition: 0.3s; }
         nav a:hover, nav a:focus { color: var(--accent); }
 
-        .page { display: none; padding: 20px; max-width: 1100px; margin: auto; min-height: 50vh; }
-        .active { display: block; }
+        /* LỚP PAGE CƠ BẢN */
+        .page { display: none; padding: 20px; max-width: 1100px; margin: auto; min-height: 50vh; animation: fadeIn 0.4s ease; }
+        .page.active { display: block; }
 
-        /* GRID DÀNH CHO GIAO DIỆN MỚI */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; margin-top: 20px; }
-        
-        /* CSS CHO THẺ SẢN PHẨM MỚI (book-card) */
-        .book-card { 
-            background: var(--card-bg); 
-            padding: 20px; 
-            border-radius: 20px; 
-            border: 2px solid #ddd; 
-            transition: all 0.4s ease; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           GIAO DIỆN TRANG CHỦ (HERO SECTION MỚI)
+           ========================================= */
+        #home.hero-section {
+            max-width: 1600px; /* Phá vỡ giới hạn 1100px của .page */
+            width: 95%;        /* Chiếm 95% chiều rộng màn hình */
+            background-image: url('https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            min-height: 85vh;
+            margin: 20px auto 0; /* Căn giữa màn hình */
+            border: 4px solid var(--accent);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            padding: 0;
         }
-        .book-card:hover { 
-            border-color: var(--accent); 
-            transform: translateY(-10px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2); 
-        }
-        .book-img-box { cursor: pointer; text-align: center; }
-        .book-img-box img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
-        .book-info h3 { font-size: 1.2em; margin: 15px 0 5px; color: var(--header-bg); }
-        .book-author { color: #64748b; font-size: 0.95em; margin: 0 0 15px; font-weight: bold; }
         
-        .price-box { margin-bottom: 15px; text-align: center; }
+        #home.hero-section.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(26, 26, 46, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            max-width: 850px;
+            padding: 20px;
+        }
+        .hero-content h1 {
+            font-size: 4.5em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.6);
+        }
+        .hero-content p {
+            font-size: 1.4em;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: #f8fafc;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .hero-btn {
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 15px 40px; 
+            font-size: 1.2em; 
+            background: var(--button-bg); 
+            color: white; 
+            border: none; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .hero-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* DANH SÁCH SẢN PHẨM */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 20px; }
+        
+        .lego-card { background: var(--card-bg); padding: 20px; border-radius: 20px; border: 2px solid #ddd; transition: all 0.4s ease; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .lego-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .lego-img-box { cursor: pointer; text-align: center; overflow: hidden; border-radius: 15px; }
+        .lego-img-box img { width: 100%; height: 200px; object-fit: contain; transition: transform 0.4s; }
+        .lego-img-box:hover img { transform: scale(1.05); }
+        
+        .lego-info h3 { font-size: 1.2em; margin: 15px 0 5px; color: var(--header-bg); line-height: 1.3; }
+        .lego-author { color: #64748b; font-size: 0.95em; margin: 0 0 15px; font-weight: bold; }
+        .price-box { margin-bottom: 15px; text-align: center; display: flex; flex-direction: column; gap: 5px; }
         .current-price { color: var(--button-bg); font-weight: 700; font-size: 1.4em; font-family: 'Oswald', sans-serif; }
+        .old-price { color: var(--gray); text-decoration: line-through; font-size: 0.9em; font-weight: bold; }
         
+        .sale-badge { position: absolute; top: -10px; right: -10px; background: var(--button-bg); color: white; padding: 5px 10px; border-radius: 10px; font-weight: bold; font-family: 'Oswald', sans-serif; font-size: 0.9em; box-shadow: 0 4px 10px rgba(231,76,60,0.3); z-index: 10; }
+
         .cta-box { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; transition: 0.3s; font-family: 'Oswald', sans-serif; text-transform: uppercase; border: none; font-size: 0.9em; }
+        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; transition: 0.3s; border: none; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-fill { background: var(--header-bg); color: white; border: 2px solid var(--header-bg); }
-        .btn-fill:hover { background: var(--button-bg); border-color: var(--button-bg); }
+        .btn-fill:hover { background: var(--button-bg); border-color: var(--button-bg); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
 
-        /* TRANG CHI TIẾT SẢN PHẨM CẬP NHẬT */
-        .detail-container { background: white; padding: 40px; border-radius: 25px; display: flex; gap: 40px; margin-top: 20px; border: 2px solid #ddd; }
-        .detail-left { flex: 1; }
-        .detail-left img { width: 100%; border-radius: 20px; border: 2px solid #ddd; object-fit: cover; }
-        .detail-right { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        .d-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 20px; border-radius: 15px; }
-        .d-meta-grid p { margin: 0; font-size: 0.95em; }
-        .btn-buy-now { background: var(--button-bg); color: white; padding: 15px; border: none; cursor: pointer; font-size: 1.2em; font-weight: 700; border-radius: 15px; transition: 0.3s; margin-top: 15px; }
-        .btn-buy-now:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+        /* CSS PHÂN TRANG */
+        .pagination-container { display: flex; justify-content: center; gap: 10px; margin-top: 40px; margin-bottom: 20px; }
+        .page-btn { background: white; border: 2px solid var(--header-bg); color: var(--header-bg); padding: 8px 16px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'Oswald', sans-serif; font-size: 1.1em; }
+        .page-btn:hover:not(:disabled) { background: var(--header-bg); color: white; }
+        .page-btn.active { background: var(--button-bg); border-color: var(--button-bg); color: white; pointer-events: none; }
+        .page-btn:disabled { border-color: #cbd5e1; color: #cbd5e1; cursor: not-allowed; background: #f8fafc; }
 
-        .game-box { background: white; padding: 30px; border-radius: 25px; text-align: center; margin-top: 20px; border: 2px solid #ddd; }
-        .game-box input { padding: 10px; font-size: 16px; border-radius: 10px; border: 1px solid #ccc; outline: none; }
-        .game-box button { padding: 10px 20px; font-size: 16px; border-radius: 10px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; margin-left: 10px; }
+        /* TRANG CHI TIẾT SẢN PHẨM */
+        .container { background: white; padding: 40px; border-radius: 25px; margin-top: 20px; border: 2px solid #ddd; }
+        .back-to-home-btn { background: none; border: none; font-size: 1em; font-weight: bold; color: var(--header-bg); cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-family: 'Roboto Condensed', sans-serif; transition: 0.3s; padding: 0; }
+        .back-to-home-btn:hover { color: var(--button-bg); transform: translateX(-5px); }
 
-        /* FOOTER */
-        footer { background: #1a1a2e; color: #94a3b8; padding: 60px 20px 30px; margin-top: 80px; }
-        .footer-wrapper { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
-        .footer-col h3 { color: #ffffff; margin-bottom: 25px; font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
+        .detail-wrapper { display: flex; gap: 40px; }
+        .modal-gallery { flex: 1; max-width: 450px; }
+        .main-img { border-radius: 20px; border: 2px solid #ddd; background: #f8fafc; overflow: hidden; display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1; }
+        .main-img img { width: 100%; height: 100%; object-fit: contain; }
+        .thumb-imgs { display: flex; gap: 10px; margin-top: 15px; }
+        .thumb-imgs > div { flex: 1; height: 80px; background: #f8fafc; border: 2px solid #ddd; border-radius: 10px; overflow: hidden; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .thumb-imgs > div:hover, .thumb-imgs > div.active-thumb { border-color: var(--primary-color); }
+        .thumb-imgs img { width: 100%; height: 100%; object-fit: cover; }
+
+        .info-detail { flex: 1.5; display: flex; flex-direction: column; }
+        .info-detail h1 { margin: 0 0 5px; font-size: 2.2em; color: var(--header-bg); line-height: 1.2; }
+        .modal-lego-author { font-size: 1.1em; font-weight: bold; margin-bottom: 15px; }
+        .blurb-box { background: #f8fafc; padding: 15px; border-radius: 10px; line-height: 1.6; border-left: 4px solid var(--primary-color); margin-bottom: 20px; }
+        .meta-info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        .meta-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .meta-label { font-size: 0.85em; color: var(--gray); font-weight: bold; text-transform: uppercase; }
+        .meta-value { font-size: 1.05em; font-weight: bold; color: var(--text); word-wrap: break-word; }
+        .detail-action-box { display: flex; gap: 15px; margin-top: auto; }
+
+        /* FOOTER PRO */
+        footer { background: #1a1a2e; color: #94a3b8; padding: 60px 20px 30px; margin-top: 80px; font-family: 'Roboto Condensed', sans-serif; }
+        footer .container { background: transparent; padding: 0; border: none; max-width: 1100px; margin: auto; border-radius: 0; }
+        .footer-grid-pro { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-col h3 { color: #ffffff; margin-bottom: 20px; font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
         .footer-col h3::after { content: ""; flex: 1; height: 1px; background: var(--accent); opacity: 0.3; }
-        .footer-links-list { list-style: none; padding: 0; }
-        .footer-links-list li { margin-bottom: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
-        .footer-links-list li:hover { color: var(--accent); transform: translateX(5px); }
-        .footer-bottom { text-align: center; margin-top: 60px; padding-top: 30px; border-top: 1px solid #334155; font-size: 0.9em; letter-spacing: 1px; }
+        .brand-desc { line-height: 1.6; margin-bottom: 20px; }
+        .contact-info-list, .footer-links-list { list-style: none; padding: 0; margin: 0; }
+        .contact-info-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .contact-info-list i { color: var(--accent); }
+        .footer-links-list li { margin-bottom: 12px; transition: 0.3s; }
+        .footer-links-list a { color: #94a3b8; text-decoration: none; display: inline-block; transition: 0.3s; }
+        .footer-links-list a:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom-pro { text-align: center; margin-top: 60px !important; padding-top: 25px !important; border-top: 1px solid #334155 !important; font-size: 0.95em; letter-spacing: 1px; }
 
-        @media (max-width: 768px) {
-            .detail-container { flex-direction: column; }
-            header { flex-direction: column; gap: 15px; }
+        /* RESPONSIVE GRID */
+        @media (max-width: 992px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { 
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            .detail-wrapper { flex-direction: column; }
+            .modal-gallery { max-width: 100%; }
+            .footer-grid-pro { gap: 30px; }
+            .meta-info-grid { grid-template-columns: 1fr; }
+            
+            #home.hero-section { min-height: 60vh; width: 90%; }
+            .hero-content h1 { font-size: 3em; }
+            .hero-content p { font-size: 1.1em; }
+        }
+        @media (max-width: 480px) { 
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -98,132 +205,900 @@
         </nav>
     </header>
 
-    <div id="home" class="page active">
-        <h2>Chào mừng đến với thế giới LEGO!</h2>
-        <div class="game-box">
-            <h3>🎮 Mini Game: Thử thách lắp ghép</h3>
-            <p>Đoán số mảnh ghép (100 - 500):</p>
-            <input type="number" id="guess" placeholder="Nhập số..." min="100" max="500">
-            <button onclick="checkGame()">Kiểm tra</button>
-            <p id="result" style="margin-top: 15px; font-weight: bold; color: var(--button-bg);"></p>
+    <!-- TRANG CHỦ (HERO SECTION ĐÃ ĐƯỢC LÀM LỚN VÀ CHUẨN LOGIC) -->
+    <div id="home" class="page active hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>HMB AGENCY</h1>
+                <p>Khám phá thế giới LEGO muôn màu. Khơi nguồn sáng tạo, xây dựng đam mê cùng những bộ mô hình lắp ráp đỉnh cao chính hãng dành cho mọi lứa tuổi.</p>
+                <button class="hero-btn" onclick="showPage('products')">Bắt đầu khám phá <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
         </div>
     </div>
 
+    <!-- TRANG SẢN PHẨM -->
     <div id="products" class="page">
         <h2>Danh sách sản phẩm</h2>
         <div class="grid" id="product-list">
             
-            <div class="book-card">
+            <div class="lego-card">
                 <div>
-                    <div class="book-img-box" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">
-                        <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80" alt="Bìa sách">
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'lego1.jpg', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">
+                        <img src="lego1.jpg" alt="Set Lego">
                     </div>
-                    <div class="book-info">
+                    <div class="lego-info">
                         <h3>LEGO Star Wars 75192 Millennium Falcon</h3>
-                        <p class="book-author">LEGO Star Wars</p>
+                        <p class="lego-author">LEGO Star Wars</p>
                     </div>
                 </div>
                 <div>
                     <div class="price-box"><span class="current-price">21.990.000 đ</span></div>
                     <div class="cta-box">
-                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">Mua ngay</button>
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'lego1.jpg', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">Mua ngay</button>
                     </div>
                 </div>
             </div>
 
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Harry Potter 71043 Lâu đài Hogwarts', 'LEGO Harry Potter', '12.490.000 đ', 'lego2.jpg', 'Tái hiện lại thế giới ma thuật với tòa lâu đài Hogwarts đồ sộ và đầy bí ẩn.', '16+', '6020 mảnh ghép', 'Harry Potter Exclusive', '2018', '58 x 69 x 43 cm', 'Nhựa ABS', '4 Minifigures & 27 Microfigures')">
+                        <img src="lego2.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Harry Potter 71043 Lâu đài Hogwarts</h3>
+                        <p class="lego-author">LEGO Harry Potter</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">12.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Harry Potter 71043 Lâu đài Hogwarts', 'LEGO Harry Potter', '12.490.000 đ', 'lego2.jpg', 'Tái hiện lại thế giới ma thuật với tòa lâu đài Hogwarts đồ sộ và đầy bí ẩn.', '16+', '6020 mảnh ghép', 'Harry Potter Exclusive', '2018', '58 x 69 x 43 cm', 'Nhựa ABS', '4 Minifigures & 27 Microfigures')">Mua ngay</button>
+                    </div>
+                </div>
             </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10294 Tàu Titanic', 'LEGO Icons', '18.590.000 đ', 'lego3.jpg', 'Mô hình tàu Titanic vĩ đại với độ chi tiết kỹ thuật đáng kinh ngạc.', '18+', '9090 mảnh ghép', 'Creator Expert', '2021', '135 x 44 x 16 cm', 'Nhựa ABS', 'Không có Minifigure')">
+                        <img src="lego3.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10294 Tàu Titanic</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">18.590.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10294 Tàu Titanic', 'LEGO Icons', '18.590.000 đ', 'lego3.jpg', 'Mô hình tàu Titanic vĩ đại với độ chi tiết kỹ thuật đáng kinh ngạc.', '18+', '9090 mảnh ghép', 'Creator Expert', '2021', '135 x 44 x 16 cm', 'Nhựa ABS', 'Không có Minifigure')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10307 Tháp Eiffel', 'LEGO Icons', '17.490.000 đ', 'lego4.jpg', 'Biểu tượng của Paris được tái hiện ấn tượng với chiều cao gần 1.5 mét.', '18+', '10001 mảnh ghép', 'World Buildings', '2022', '149 x 57 x 57 cm', 'Nhựa ABS', 'Không có Minifigure')">
+                        <img src="lego4.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10307 Tháp Eiffel</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">17.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10307 Tháp Eiffel', 'LEGO Icons', '17.490.000 đ', 'lego4.jpg', 'Biểu tượng của Paris được tái hiện ấn tượng với chiều cao gần 1.5 mét.', '18+', '10001 mảnh ghép', 'World Buildings', '2022', '149 x 57 x 57 cm', 'Nhựa ABS', 'Không có Minifigure')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Creator Expert 10276 Đấu trường Colosseum', 'LEGO Creator Expert', '14.990.000 đ', 'lego5.jpg', 'Kỳ quan của thế giới cổ đại với kiến trúc vòng cung hoành tráng.', '18+', '9036 mảnh ghép', 'Architecture', '2020', '27 x 52 x 59 cm', 'Nhựa ABS', 'Không có Minifigure')">
+                        <img src="lego5.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Creator Expert 10276 Đấu trường Colosseum</h3>
+                        <p class="lego-author">LEGO Creator Expert</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">14.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Creator Expert 10276 Đấu trường Colosseum', 'LEGO Creator Expert', '14.990.000 đ', 'lego5.jpg', 'Kỳ quan của thế giới cổ đại với kiến trúc vòng cung hoành tráng.', '18+', '9036 mảnh ghép', 'Architecture', '2020', '27 x 52 x 59 cm', 'Nhựa ABS', 'Không có Minifigure')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Star Wars 75313 AT-AT', 'LEGO Star Wars', '21.990.000 đ', 'lego6.jpg', 'Cỗ máy chiến đấu khổng lồ của Đế Chế Galactic trên hành tinh băng Hoth.', '18+', '6785 mảnh ghép', 'Ultimate Collector Series', '2021', '62 x 69 x 24 cm', 'Nhựa ABS', '9 Minifigures')">
+                        <img src="lego6.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Star Wars 75313 AT-AT</h3>
+                        <p class="lego-author">LEGO Star Wars</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">21.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Star Wars 75313 AT-AT', 'LEGO Star Wars', '21.990.000 đ', 'lego6.jpg', 'Cỗ máy chiến đấu khổng lồ của Đế Chế Galactic trên hành tinh băng Hoth.', '18+', '6785 mảnh ghép', 'Ultimate Collector Series', '2021', '62 x 69 x 24 cm', 'Nhựa ABS', '9 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10316 Rivendell', 'LEGO Icons', '13.990.000 đ', 'lego7.jpg', 'Thung lũng Tiên tộc tuyệt đẹp nơi Hiệp hội Bảo vệ Nhẫn bắt đầu hành trình.', '18+', '6167 mảnh ghép', 'Lord of the Rings', '2023', '39 x 75 x 50 cm', 'Nhựa ABS', '15 Minifigures')">
+                        <img src="lego7.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10316 Rivendell</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">13.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10316 Rivendell', 'LEGO Icons', '13.990.000 đ', 'lego7.jpg', 'Thung lũng Tiên tộc tuyệt đẹp nơi Hiệp hội Bảo vệ Nhẫn bắt đầu hành trình.', '18+', '6167 mảnh ghép', 'Lord of the Rings', '2023', '39 x 75 x 50 cm', 'Nhựa ABS', '15 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Technic 42115 Lamborghini Sián FKP 37', 'LEGO Technic', '10.490.000 đ', 'lego8.jpg', 'Siêu xe thể thao màu xanh lá với động cơ V12 chi tiết.', '18+', '3696 mảnh ghép', 'Technic Ultimate', '2020', '13 x 60 x 25 cm', 'Nhựa ABS', 'Vali du lịch mini')">
+                        <img src="lego8.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Technic 42115 Lamborghini Sián FKP 37</h3>
+                        <p class="lego-author">LEGO Technic</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">10.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Technic 42115 Lamborghini Sián FKP 37', 'LEGO Technic', '10.490.000 đ', 'lego8.jpg', 'Siêu xe thể thao màu xanh lá với động cơ V12 chi tiết.', '18+', '3696 mảnh ghép', 'Technic Ultimate', '2020', '13 x 60 x 25 cm', 'Nhựa ABS', 'Vali du lịch mini')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Technic 42083 Bugatti Chiron', 'LEGO Technic', '9.990.000 đ', 'lego9.jpg', 'Tuyệt tác siêu xe từ Bugatti với động cơ W16 hoạt động được.', '16+', '3599 mảnh ghép', 'Technic Ultimate', '2018', '14 x 56 x 25 cm', 'Nhựa ABS', 'Chìa khóa tốc độ')">
+                        <img src="lego9.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Technic 42083 Bugatti Chiron</h3>
+                        <p class="lego-author">LEGO Technic</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">9.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Technic 42083 Bugatti Chiron', 'LEGO Technic', '9.990.000 đ', 'lego9.jpg', 'Tuyệt tác siêu xe từ Bugatti với động cơ W16 hoạt động được.', '16+', '3599 mảnh ghép', 'Technic Ultimate', '2018', '14 x 56 x 25 cm', 'Nhựa ABS', 'Chìa khóa tốc độ')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Technic 42143 Ferrari Daytona SP3', 'LEGO Technic', '11.290.000 đ', 'lego10.jpg', 'Siêu xe Ferrari màu đỏ rực rỡ với cửa mở cánh bướm.', '18+', '3778 mảnh ghép', 'Technic Ultimate', '2022', '14 x 59 x 25 cm', 'Nhựa ABS', 'Tấm thẻ chứng nhận độc quyền')">
+                        <img src="lego10.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Technic 42143 Ferrari Daytona SP3</h3>
+                        <p class="lego-author">LEGO Technic</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">11.290.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Technic 42143 Ferrari Daytona SP3', 'LEGO Technic', '11.290.000 đ', 'lego10.jpg', 'Siêu xe Ferrari màu đỏ rực rỡ với cửa mở cánh bướm.', '18+', '3778 mảnh ghép', 'Technic Ultimate', '2022', '14 x 59 x 25 cm', 'Nhựa ABS', 'Tấm thẻ chứng nhận độc quyền')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Marvel 76178 Tòa soạn Daily Bugle', 'LEGO Marvel', '8.990.000 đ', 'lego11.jpg', 'Trụ sở tòa soạn báo biểu tượng của Người Nhện với vô số chi tiết.', '18+', '3772 mảnh ghép', 'Super Heroes', '2021', '82 x 27 x 27 cm', 'Nhựa ABS', '25 Minifigures')">
+                        <img src="lego11.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Marvel 76178 Tòa soạn Daily Bugle</h3>
+                        <p class="lego-author">LEGO Marvel</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">8.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Marvel 76178 Tòa soạn Daily Bugle', 'LEGO Marvel', '8.990.000 đ', 'lego11.jpg', 'Trụ sở tòa soạn báo biểu tượng của Người Nhện với vô số chi tiết.', '18+', '3772 mảnh ghép', 'Super Heroes', '2021', '82 x 27 x 27 cm', 'Nhựa ABS', '25 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Marvel 76269 Tháp Avengers', 'LEGO Marvel', '14.490.000 đ', 'lego12.jpg', 'Tòa tháp Avengers vĩ đại nhất từng được ra mắt, điểm tụ họp của các siêu anh hùng.', '18+', '5201 mảnh ghép', 'Super Heroes', '2023', '90 x 34 x 25 cm', 'Nhựa ABS', '31 Minifigures')">
+                        <img src="lego12.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Marvel 76269 Tháp Avengers</h3>
+                        <p class="lego-author">LEGO Marvel</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">14.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Marvel 76269 Tháp Avengers', 'LEGO Marvel', '14.490.000 đ', 'lego12.jpg', 'Tòa tháp Avengers vĩ đại nhất từng được ra mắt, điểm tụ họp của các siêu anh hùng.', '18+', '5201 mảnh ghép', 'Super Heroes', '2023', '90 x 34 x 25 cm', 'Nhựa ABS', '31 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Marvel 76218 Sanctum Sanctorum', 'LEGO Marvel', '6.590.000 đ', 'lego13.jpg', 'Thánh đường ma thuật của Doctor Strange giữa lòng New York.', '18+', '2708 mảnh ghép', 'Super Heroes', '2022', '32 x 31 x 26 cm', 'Nhựa ABS', '9 Minifigures')">
+                        <img src="lego13.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Marvel 76218 Sanctum Sanctorum</h3>
+                        <p class="lego-author">LEGO Marvel</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">6.590.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Marvel 76218 Sanctum Sanctorum', 'LEGO Marvel', '6.590.000 đ', 'lego13.jpg', 'Thánh đường ma thuật của Doctor Strange giữa lòng New York.', '18+', '2708 mảnh ghép', 'Super Heroes', '2022', '32 x 31 x 26 cm', 'Nhựa ABS', '9 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Super Mario 71374 NES System', 'LEGO Super Mario', '6.990.000 đ', 'lego14.jpg', 'Cỗ máy chơi game tuổi thơ cùng chiếc TV CRT cổ điển phát game Mario.', '18+', '2646 mảnh ghép', 'Nintendo', '2020', '22 x 23 x 16 cm', 'Nhựa ABS', 'Băng game Mario')">
+                        <img src="lego14.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Super Mario 71374 NES System</h3>
+                        <p class="lego-author">LEGO Super Mario</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">6.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Super Mario 71374 NES System', 'LEGO Super Mario', '6.990.000 đ', 'lego14.jpg', 'Cỗ máy chơi game tuổi thơ cùng chiếc TV CRT cổ điển phát game Mario.', '18+', '2646 mảnh ghép', 'Nintendo', '2020', '22 x 23 x 16 cm', 'Nhựa ABS', 'Băng game Mario')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10305 Lâu đài Hiệp sĩ Sư Tử', 'LEGO Icons', '10.490.000 đ', 'lego15.jpg', 'Kỷ niệm 90 năm LEGO với mô hình lâu đài trung cổ kinh điển.', '18+', '4514 mảnh ghép', 'Castle', '2022', '38 x 44 x 33 cm', 'Nhựa ABS', '22 Minifigures')">
+                        <img src="lego15.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10305 Lâu đài Hiệp sĩ Sư Tử</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">10.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10305 Lâu đài Hiệp sĩ Sư Tử', 'LEGO Icons', '10.490.000 đ', 'lego15.jpg', 'Kỷ niệm 90 năm LEGO với mô hình lâu đài trung cổ kinh điển.', '18+', '4514 mảnh ghép', 'Castle', '2022', '38 x 44 x 33 cm', 'Nhựa ABS', '22 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10274 Xe săn ma ECTO-1', 'LEGO Icons', '5.490.000 đ', 'lego16.jpg', 'Chiếc xe cứu thương Cadillac Miller-Meteor độ thành xe săn ma chuyên dụng.', '18+', '2352 mảnh ghép', 'Creator Expert', '2020', '22 x 47 x 16 cm', 'Nhựa ABS', 'Súng proton mini')">
+                        <img src="lego16.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10274 Xe săn ma ECTO-1</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">5.490.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10274 Xe săn ma ECTO-1', 'LEGO Icons', '5.490.000 đ', 'lego16.jpg', 'Chiếc xe cứu thương Cadillac Miller-Meteor độ thành xe săn ma chuyên dụng.', '18+', '2352 mảnh ghép', 'Creator Expert', '2020', '22 x 47 x 16 cm', 'Nhựa ABS', 'Súng proton mini')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10300 Cỗ máy thời gian', 'LEGO Icons', '4.990.000 đ', 'lego17.jpg', 'Chiếc DeLorean có khả năng biến đổi thành 3 phiên bản qua các phần phim.', '18+', '1872 mảnh ghép', 'Creator Expert', '2022', '12 x 35 x 19 cm', 'Nhựa ABS', '2 Minifigures')">
+                        <img src="lego17.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10300 Cỗ máy thời gian</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">4.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10300 Cỗ máy thời gian', 'LEGO Icons', '4.990.000 đ', 'lego17.jpg', 'Chiếc DeLorean có khả năng biến đổi thành 3 phiên bản qua các phần phim.', '18+', '1872 mảnh ghép', 'Creator Expert', '2022', '12 x 35 x 19 cm', 'Nhựa ABS', '2 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21318 Ngôi nhà trên cây', 'LEGO Ideas', '6.290.000 đ', 'lego18.jpg', 'Nhà cây tuyệt đẹp với bộ lá có thể thay đổi theo mùa Xuân/Thu.', '16+', '3036 mảnh ghép', 'Ideas', '2019', '37 x 27 x 24 cm', 'Nhựa Sinh học (Bio-plastic)', '4 Minifigures')">
+                        <img src="lego18.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21318 Ngôi nhà trên cây</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">6.290.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21318 Ngôi nhà trên cây', 'LEGO Ideas', '6.290.000 đ', 'lego18.jpg', 'Nhà cây tuyệt đẹp với bộ lá có thể thay đổi theo mùa Xuân/Thu.', '16+', '3036 mảnh ghép', 'Ideas', '2019', '37 x 27 x 24 cm', 'Nhựa Sinh học (Bio-plastic)', '4 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21327 Máy đánh chữ', 'LEGO Ideas', '5.790.000 đ', 'lego19.jpg', 'Máy đánh chữ cổ điển có thể hoạt động gõ phím như thật.', '18+', '2079 mảnh ghép', 'Ideas', '2021', '11 x 27 x 26 cm', 'Nhựa ABS', 'Thư viết tay của chủ tịch LEGO')">
+                        <img src="lego19.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21327 Máy đánh chữ</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">5.790.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21327 Máy đánh chữ', 'LEGO Ideas', '5.790.000 đ', 'lego19.jpg', 'Máy đánh chữ cổ điển có thể hoạt động gõ phím như thật.', '18+', '2079 mảnh ghép', 'Ideas', '2021', '11 x 27 x 26 cm', 'Nhựa ABS', 'Thư viết tay của chủ tịch LEGO')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21323 Đàn Grand Piano', 'LEGO Ideas', '9.990.000 đ', 'lego20.jpg', 'Đại dương cầm có thể tự đánh đàn qua ứng dụng Powered Up.', '18+', '3662 mảnh ghép', 'Ideas', '2020', '22 x 30 x 35 cm', 'Nhựa ABS', 'Motor & Hub Bluetooth')">
+                        <img src="lego20.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21323 Đàn Grand Piano</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">9.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21323 Đàn Grand Piano', 'LEGO Ideas', '9.990.000 đ', 'lego20.jpg', 'Đại dương cầm có thể tự đánh đàn qua ứng dụng Powered Up.', '18+', '3662 mảnh ghép', 'Ideas', '2020', '22 x 30 x 35 cm', 'Nhựa ABS', 'Motor & Hub Bluetooth')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21333 Vincent van Gogh - Đêm đầy sao', 'LEGO Ideas', '4.790.000 đ', 'lego21.jpg', 'Tái hiện bức tranh 3D kiệt tác “The Starry Night” nổi tiếng.', '18+', '2316 mảnh ghép', 'Art & Ideas', '2022', '28 x 38 x 12 cm', 'Nhựa ABS', '1 Minifigure Van Gogh')">
+                        <img src="lego21.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21333 Vincent van Gogh - Đêm đầy sao</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">4.790.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21333 Vincent van Gogh - Đêm đầy sao', 'LEGO Ideas', '4.790.000 đ', 'lego21.jpg', 'Tái hiện bức tranh 3D kiệt tác “The Starry Night” nổi tiếng.', '18+', '2316 mảnh ghép', 'Art & Ideas', '2022', '28 x 38 x 12 cm', 'Nhựa ABS', '1 Minifigure Van Gogh')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21330 Ở Nhà Một Mình', 'LEGO Ideas', '7.990.000 đ', 'lego22.jpg', 'Ngôi nhà McCallister ngập tràn bẫy chống trộm như trong phim.', '18+', '3955 mảnh ghép', 'Ideas', '2021', '27 x 34 x 37 cm', 'Nhựa ABS', '5 Minifigures')">
+                        <img src="lego22.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21330 Ở Nhà Một Mình</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">7.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21330 Ở Nhà Một Mình', 'LEGO Ideas', '7.990.000 đ', 'lego22.jpg', 'Ngôi nhà McCallister ngập tràn bẫy chống trộm như trong phim.', '18+', '3955 mảnh ghép', 'Ideas', '2021', '27 x 34 x 37 cm', 'Nhựa ABS', '5 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Ideas 21332 Quả Địa Cầu', 'LEGO Ideas', '5.990.000 đ', 'lego23.jpg', 'Quả địa cầu phong cách vintage có thể xoay được quanh trục.', '18+', '2585 mảnh ghép', 'Ideas', '2022', '40 x 30 x 26 cm', 'Nhựa ABS', 'Nhãn dán dạ quang')">
+                        <img src="lego23.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Ideas 21332 Quả Địa Cầu</h3>
+                        <p class="lego-author">LEGO Ideas</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">5.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Ideas 21332 Quả Địa Cầu', 'LEGO Ideas', '5.990.000 đ', 'lego23.jpg', 'Quả địa cầu phong cách vintage có thể xoay được quanh trục.', '18+', '2585 mảnh ghép', 'Ideas', '2022', '40 x 30 x 26 cm', 'Nhựa ABS', 'Nhãn dán dạ quang')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10311 Hoa Lan', 'LEGO Icons Botanical', '1.390.000 đ', 'lego24.jpg', 'Chậu hoa lan tuyệt đẹp dùng để trang trí không gian sống mà không bao giờ tàn.', '18+', '608 mảnh ghép', 'Botanical Collection', '2022', '39 x 30 x 24 cm', 'Nhựa ABS', 'Chậu cây đi kèm')">
+                        <img src="lego24.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10311 Hoa Lan</h3>
+                        <p class="lego-author">LEGO Icons Botanical</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">1.390.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10311 Hoa Lan', 'LEGO Icons Botanical', '1.390.000 đ', 'lego24.jpg', 'Chậu hoa lan tuyệt đẹp dùng để trang trí không gian sống mà không bao giờ tàn.', '18+', '608 mảnh ghép', 'Botanical Collection', '2022', '39 x 30 x 24 cm', 'Nhựa ABS', 'Chậu cây đi kèm')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="product-pagination-controls" class="pagination-container"></div>
     </div>
 
+    <!-- TRANG HOT & SALE -->
     <div id="hot-sale" class="page">
         <h2>Sản phẩm Hot & Sale</h2>
         <div class="grid" id="sale-list">
+            
+            <div class="lego-card">
+                <span class="sale-badge">SALE 15%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '18.690.000 đ', 'lego1.jpg', 'Mô hình phi thuyền Millennium Falcon huyền thoại.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">
+                        <img src="lego1.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Star Wars 75192 Millennium Falcon</h3>
+                        <p class="lego-author">LEGO Star Wars</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">21.990.000 đ</span>
+                        <span class="current-price">18.690.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '18.690.000 đ', 'lego1.jpg', 'Mô hình phi thuyền Millennium Falcon huyền thoại.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
             </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 20%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Harry Potter 71043 Lâu đài Hogwarts', 'LEGO Harry Potter', '9.990.000 đ', 'lego2.jpg', 'Tái hiện lại thế giới ma thuật với tòa lâu đài Hogwarts.', '16+', '6020 mảnh ghép', 'Harry Potter Exclusive', '2018', '58 x 69 x 43 cm', 'Nhựa ABS', '4 Minifigures')">
+                        <img src="lego2.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Harry Potter 71043 Lâu đài Hogwarts</h3>
+                        <p class="lego-author">LEGO Harry Potter</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">12.490.000 đ</span>
+                        <span class="current-price">9.990.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Harry Potter 71043 Lâu đài Hogwarts', 'LEGO Harry Potter', '9.990.000 đ', 'lego2.jpg', 'Tái hiện lại thế giới ma thuật với tòa lâu đài Hogwarts.', '16+', '6020 mảnh ghép', 'Harry Potter Exclusive', '2018', '58 x 69 x 43 cm', 'Nhựa ABS', '4 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 10%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10294 Tàu Titanic', 'LEGO Icons', '16.730.000 đ', 'lego3.jpg', 'Mô hình tàu Titanic vĩ đại.', '18+', '9090 mảnh ghép', 'Creator Expert', '2021', '135 x 44 x 16 cm', 'Nhựa ABS', 'Không')">
+                        <img src="lego3.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10294 Tàu Titanic</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">18.590.000 đ</span>
+                        <span class="current-price">16.730.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10294 Tàu Titanic', 'LEGO Icons', '16.730.000 đ', 'lego3.jpg', 'Mô hình tàu Titanic vĩ đại.', '18+', '9090 mảnh ghép', 'Creator Expert', '2021', '135 x 44 x 16 cm', 'Nhựa ABS', 'Không')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 12%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10307 Tháp Eiffel', 'LEGO Icons', '15.390.000 đ', 'lego4.jpg', 'Biểu tượng của Paris.', '18+', '10001 mảnh ghép', 'World Buildings', '2022', '149 x 57 x 57 cm', 'Nhựa ABS', 'Không')">
+                        <img src="lego4.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10307 Tháp Eiffel</h3>
+                        <p class="lego-author">LEGO Icons</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">17.490.000 đ</span>
+                        <span class="current-price">15.390.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10307 Tháp Eiffel', 'LEGO Icons', '15.390.000 đ', 'lego4.jpg', 'Biểu tượng của Paris.', '18+', '10001 mảnh ghép', 'World Buildings', '2022', '149 x 57 x 57 cm', 'Nhựa ABS', 'Không')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 25%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Technic 42115 Lamborghini Sián FKP 37', 'LEGO Technic', '7.860.000 đ', 'lego8.jpg', 'Siêu xe thể thao màu xanh lá.', '18+', '3696 mảnh ghép', 'Technic Ultimate', '2020', '13 x 60 x 25 cm', 'Nhựa ABS', 'Vali du lịch mini')">
+                        <img src="lego8.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Technic Lamborghini Sián FKP 37</h3>
+                        <p class="lego-author">LEGO Technic</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">10.490.000 đ</span>
+                        <span class="current-price">7.860.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Technic 42115 Lamborghini Sián FKP 37', 'LEGO Technic', '7.860.000 đ', 'lego8.jpg', 'Siêu xe thể thao màu xanh lá.', '18+', '3696 mảnh ghép', 'Technic Ultimate', '2020', '13 x 60 x 25 cm', 'Nhựa ABS', 'Vali du lịch mini')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 20%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Technic 42083 Bugatti Chiron', 'LEGO Technic', '7.990.000 đ', 'lego9.jpg', 'Tuyệt tác siêu xe từ Bugatti.', '16+', '3599 mảnh ghép', 'Technic Ultimate', '2018', '14 x 56 x 25 cm', 'Nhựa ABS', 'Chìa khóa tốc độ')">
+                        <img src="lego9.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Technic 42083 Bugatti Chiron</h3>
+                        <p class="lego-author">LEGO Technic</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">9.990.000 đ</span>
+                        <span class="current-price">7.990.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Technic 42083 Bugatti Chiron', 'LEGO Technic', '7.990.000 đ', 'lego9.jpg', 'Tuyệt tác siêu xe từ Bugatti.', '16+', '3599 mảnh ghép', 'Technic Ultimate', '2018', '14 x 56 x 25 cm', 'Nhựa ABS', 'Chìa khóa tốc độ')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 15%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Marvel 76269 Tháp Avengers', 'LEGO Marvel', '12.310.000 đ', 'lego12.jpg', 'Tòa tháp Avengers vĩ đại nhất.', '18+', '5201 mảnh ghép', 'Super Heroes', '2023', '90 x 34 x 25 cm', 'Nhựa ABS', '31 Minifigures')">
+                        <img src="lego12.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Marvel 76269 Tháp Avengers</h3>
+                        <p class="lego-author">LEGO Marvel</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">14.490.000 đ</span>
+                        <span class="current-price">12.310.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Marvel 76269 Tháp Avengers', 'LEGO Marvel', '12.310.000 đ', 'lego12.jpg', 'Tòa tháp Avengers vĩ đại nhất.', '18+', '5201 mảnh ghép', 'Super Heroes', '2023', '90 x 34 x 25 cm', 'Nhựa ABS', '31 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 30%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Marvel 76218 Sanctum Sanctorum', 'LEGO Marvel', '4.610.000 đ', 'lego13.jpg', 'Thánh đường ma thuật.', '18+', '2708 mảnh ghép', 'Super Heroes', '2022', '32 x 31 x 26 cm', 'Nhựa ABS', '9 Minifigures')">
+                        <img src="lego13.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Marvel 76218 Sanctum Sanctorum</h3>
+                        <p class="lego-author">LEGO Marvel</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">6.590.000 đ</span>
+                        <span class="current-price">4.610.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Marvel 76218 Sanctum Sanctorum', 'LEGO Marvel', '4.610.000 đ', 'lego13.jpg', 'Thánh đường ma thuật.', '18+', '2708 mảnh ghép', 'Super Heroes', '2022', '32 x 31 x 26 cm', 'Nhựa ABS', '9 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 10%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Super Mario 71374 NES System', 'LEGO Super Mario', '6.290.000 đ', 'lego14.jpg', 'Cỗ máy chơi game tuổi thơ.', '18+', '2646 mảnh ghép', 'Nintendo', '2020', '22 x 23 x 16 cm', 'Nhựa ABS', 'Băng game Mario')">
+                        <img src="lego14.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Super Mario 71374 NES System</h3>
+                        <p class="lego-author">LEGO Super Mario</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">6.990.000 đ</span>
+                        <span class="current-price">6.290.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Super Mario 71374 NES System', 'LEGO Super Mario', '6.290.000 đ', 'lego14.jpg', 'Cỗ máy chơi game tuổi thơ.', '18+', '2646 mảnh ghép', 'Nintendo', '2020', '22 x 23 x 16 cm', 'Nhựa ABS', 'Băng game Mario')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lego-card">
+                <span class="sale-badge">SALE 50%</span>
+                <div>
+                    <div class="lego-img-box" onclick="navigateToDetail('LEGO Icons 10311 Hoa Lan', 'LEGO Icons Botanical', '695.000 đ', 'lego24.jpg', 'Chậu hoa lan tuyệt đẹp.', '18+', '608 mảnh ghép', 'Botanical Collection', '2022', '39 x 30 x 24 cm', 'Nhựa ABS', 'Chậu cây đi kèm')">
+                        <img src="lego24.jpg" alt="Set Lego">
+                    </div>
+                    <div class="lego-info">
+                        <h3>LEGO Icons 10311 Hoa Lan</h3>
+                        <p class="lego-author">LEGO Icons Botanical</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box">
+                        <span class="old-price">1.390.000 đ</span>
+                        <span class="current-price">695.000 đ</span>
+                    </div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Icons 10311 Hoa Lan', 'LEGO Icons Botanical', '695.000 đ', 'lego24.jpg', 'Chậu hoa lan tuyệt đẹp.', '18+', '608 mảnh ghép', 'Botanical Collection', '2022', '39 x 30 x 24 cm', 'Nhựa ABS', 'Chậu cây đi kèm')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="sale-pagination-controls" class="pagination-container"></div>
     </div>
 
-    <div id="detail-page" class="page">
-        <a tabindex="0" onclick="showPage('products')" style="cursor:pointer; color:var(--header-bg); font-weight:bold;">⬅ Quay lại danh sách</a>
-        <div class="detail-container">
-            <div class="detail-left">
-                <img id="d-img" src="" alt="Lego">
-            </div>
-            <div class="detail-right">
-                <h1 id="d-name" style="margin-bottom: 5px;">Tên sản phẩm</h1>
-                <p id="d-category" class="book-author" style="margin-top: 0; font-size: 1.1em;">Danh mục</p>
-                <h2 id="d-price" style="color:var(--button-bg); font-size: 2em; margin: 10px 0;"></h2>
-                
-                <p style="line-height: 1.6;"><b>Mô tả:</b> <span id="d-desc"></span></p>
-                
-                <div class="d-meta-grid">
-                    <p><b>🧩 Số mảnh ghép:</b> <span id="d-pieces"></span></p>
-                    <p><b>👤 Độ tuổi:</b> <span id="d-age"></span></p>
-                    <p><b>🏷️ Series:</b> <span id="d-series"></span></p>
-                    <p><b>📅 Năm phát hành:</b> <span id="d-year"></span></p>
-                    <p><b>📏 Kích thước:</b> <span id="d-dim"></span></p>
-                    <p><b>🧪 Chất liệu:</b> <span id="d-material"></span></p>
-                    <p><b>🧍 Minifigures:</b> <span id="d-mini"></span></p>
+    <!-- TRANG CHI TIẾT SẢN PHẨM -->
+    <main id="detail-page" class="page">
+        <div class="container">
+            <button class="back-to-home-btn" onclick="navigateToHome()"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</button>
+    
+            <div class="detail-wrapper">
+                <div class="modal-gallery">
+                    <div class="main-img"><img id="detailImg" src="" alt="Set Lego"></div>
+                    
+                    <div class="thumb-imgs">
+                        <div onclick="changeMainImage(this)" class="active-thumb">
+                            <img id="thumbImg1" src="" alt="Set Lego">
+                        </div>
+                        <div onclick="changeMainImage(this)">
+                            <div style="text-align:center; font-size:10px; color:var(--gray); font-weight:600;"><i class="fa-solid fa-box" style="font-size: 16px; margin-bottom: 5px;"></i><br>Mặt sau</div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3522/3522108.png" style="display:none;" alt="Set Lego">
+                        </div>
+                        <div onclick="changeMainImage(this)">
+                            <div style="text-align:center; font-size:10px; color:var(--gray); font-weight:600;"><i class="fa-solid fa-magnifying-glass" style="font-size: 16px; margin-bottom: 5px;"></i><br>Chi tiết</div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3522/3522108.png" style="display:none;" alt="Set Lego">
+                        </div>
+                    </div>
                 </div>
-
-                <button class="btn-buy-now">Tiến Hành Thanh Toán!</button>
+    
+                <div class="info-detail">
+                    <h1 id="detailTitle">Tên Bộ LEGO</h1>
+                    <div class="modal-lego-author">Dòng sản phẩm: <span id="detailAuthor" style="color:var(--primary-color);">...</span></div>
+                    
+                    <h2 id="detailPrice" style="color:var(--button-bg); font-size: 2.2em; margin: 0 0 15px 0;"></h2>
+                    
+                    <div class="blurb-box">
+                        <strong>Mô tả sản phẩm:</strong> <span id="detailBlurb">Nội dung mô tả...</span>
+                    </div>
+                    
+                    <div class="meta-info-grid">
+                        <div class="meta-item"><span class="meta-label">Độ tuổi</span><span class="meta-value" id="detailTranslator">...</span></div>
+                        <div class="meta-item"><span class="meta-label">Số mảnh ghép</span><span class="meta-value" id="detailPublisher">...</span></div>
+                        <div class="meta-item"><span class="meta-label">Chủ đề</span><span class="meta-value" id="detailDistributor">...</span></div>
+                        <div class="meta-item"><span class="meta-label">Năm phát hành</span><span class="meta-value" id="detailYear">...</span></div>
+                        <div class="meta-item"><span class="meta-label">Kích thước</span><span class="meta-value" id="detailSize">...</span></div>
+                        <div class="meta-item"><span class="meta-label">Chất liệu</span><span class="meta-value" id="detailCover">...</span></div>
+                        <div class="meta-item" id="fullWidthMeta" style="grid-column: span 2;"><span class="meta-label">Phụ kiện đi kèm</span><span class="meta-value" id="detailPages">...</span></div>
+                    </div>
+    
+                    <div class="detail-action-box">
+                        <button class="btn btn-fill" style="width: 100%; font-size: 1.1em; padding: 15px;">Tiến Hành Thanh Toán <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
+    <!-- FOOTER PRO -->
     <footer>
-        <div class="footer-wrapper">
-            <div class="footer-col">
-                <h3>🏰 HMB Agency</h3>
-                <p>Đối tác thiết kế và phát triển giải pháp số. Chúng tôi mang đến trải nghiệm LEGO đỉnh cao.</p>
-                <p>📞 <b>Hotline:</b> 0855 555 140</p>
+        <div class="container footer-grid-pro">
+            <div class="footer-col brand">
+                <h3>HMB Agency</h3>
+                <p class="brand-desc">Thế giới LEGO chính hãng dành cho bạn. Chúng tôi mang đến những bộ mô hình lắp ráp chất lượng, khơi nguồn sáng tạo và đam mê cho mọi lứa tuổi.</p>
+                <ul class="contact-info-list">
+                    <li><i class="fa-solid fa-phone"></i> Hotline: 0855 555 140</li>
+                    <li><i class="fa-solid fa-envelope"></i> Email: hmb.agency.group@gmail.com</li>
+                </ul>
             </div>
             <div class="footer-col">
-                <h3>📂 Danh mục</h3>
+                <h3>Danh mục</h3>
                 <ul class="footer-links-list">
-                    <li onclick="showPage('home')"><span>▶</span> Trang chủ</li>
-                    <li onclick="showPage('products')"><span>▶</span> Sản phẩm LEGO</li>
-                    <li onclick="showPage('hot-sale')"><span>▶</span> Hot & Sale</li>
+                    <li><a href="#" onclick="navigateToHomeAndCloseMenu(event)">Trang chủ</a></li>
+                    <li><a href="#" onclick="showPage('products'); event.preventDefault();">Tất cả sản phẩm</a></li>
+                    <li><a href="#">Chủ đề LEGO</a></li>
+                    <li><a href="#" onclick="showPage('hot-sale'); event.preventDefault();">Hàng mới về</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Chính sách & Điều khoản</h3>
+                <ul class="footer-links-list">
+                    <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#">Chính sách giao hàng</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; 2026 HMB Agency. All rights reserved.
+        <div class="container footer-bottom-pro">
+            <div>&copy; 2026 <strong>HMB Agency</strong>. All rights reserved.</div>
         </div>
     </footer>
 
+    <!-- SCRIPT CHỨC NĂNG -->
     <script>
+        let previousPageId = 'products'; 
+
+        // LOGIC CHUYỂN TRANG
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function navigateToHome() {
+            showPage(previousPageId);
+        }
+
+        function navigateToHomeAndCloseMenu(e) {
+            if(e) e.preventDefault();
+            showPage('home');
+        }
+
+        // LOGIC CHI TIẾT SẢN PHẨM
+        function changeMainImage(thumbElement) {
+            let allThumbs = document.querySelectorAll('.thumb-imgs > div');
+            allThumbs.forEach(el => el.classList.remove('active-thumb'));
+            thumbElement.classList.add('active-thumb');
+            
+            let innerImg = thumbElement.querySelector('img');
+            if(innerImg && innerImg.src) {
+                document.getElementById('detailImg').src = innerImg.src;
+            }
+        }
+
         function navigateToDetail(name, category, price, img, desc, age, pieces, series, year, dim, material, mini) {
-            document.getElementById('d-name').innerText = name;
-            document.getElementById('d-category').innerText = category;
-            document.getElementById('d-price').innerText = price;
-            document.getElementById('d-img').src = img;
-            document.getElementById('d-desc').innerText = desc;
-            document.getElementById('d-age').innerText = age;
-            document.getElementById('d-pieces').innerText = pieces;
-            document.getElementById('d-series').innerText = series;
-            document.getElementById('d-year').innerText = year;
-            document.getElementById('d-dim').innerText = dim;
-            document.getElementById('d-material').innerText = material;
-            document.getElementById('d-mini').innerText = mini;
+            let currentActivePage = document.querySelector('.page.active');
+            if (currentActivePage && currentActivePage.id !== 'detail-page') {
+                previousPageId = currentActivePage.id;
+            }
+
+            document.getElementById('detailTitle').innerText = name || 'Tên sản phẩm đang cập nhật';
+            document.getElementById('detailAuthor').innerText = category || 'Đang cập nhật';
+            document.getElementById('detailPrice').innerText = price || 'Liên hệ';
+            document.getElementById('detailBlurb').innerText = desc || 'Chưa có thông tin mô tả cho sản phẩm này.';
+            
+            document.getElementById('detailTranslator').innerText = age || 'Đang cập nhật';
+            document.getElementById('detailPublisher').innerText = pieces || 'Đang cập nhật';
+            document.getElementById('detailDistributor').innerText = series || 'Đang cập nhật';
+            document.getElementById('detailYear').innerText = year || 'Đang cập nhật';
+            document.getElementById('detailSize').innerText = dim || 'Đang cập nhật';
+            document.getElementById('detailCover').innerText = material || 'Đang cập nhật';
+            document.getElementById('detailPages').innerText = mini || 'Đang cập nhật';
+            
+            let finalImg = img || 'https://cdn-icons-png.flaticon.com/512/3522/3522108.png';
+            document.getElementById('detailImg').src = finalImg;
+            document.getElementById('thumbImg1').src = finalImg;
+            
+            let allThumbs = document.querySelectorAll('.thumb-imgs > div');
+            allThumbs.forEach(el => el.classList.remove('active-thumb'));
+            if(allThumbs.length > 0) allThumbs[0].classList.add('active-thumb');
             
             showPage('detail-page');
         }
 
-        function checkGame() {
-            let val = Number(document.getElementById('guess').value);
-            let resultText = document.getElementById('result');
-            if (!val) {
-                resultText.innerText = "Vui lòng nhập một số nhé! 😅";
-                return;
+        // ==========================================
+        // LOGIC PHÂN TRANG DÙNG CHUNG
+        // ==========================================
+        const ITEMS_PER_PAGE = 8;
+        const paginationState = {
+            'product-list': 1,
+            'sale-list': 1
+        };
+
+        function renderPageList(listId, paginationId, page, isInit = false) {
+            const listContainer = document.getElementById(listId);
+            if (!listContainer) return;
+            
+            const cards = Array.from(listContainer.querySelectorAll('.lego-card'));
+            if (cards.length === 0) return;
+
+            const totalPages = Math.ceil(cards.length / ITEMS_PER_PAGE);
+            
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            
+            paginationState[listId] = page;
+
+            cards.forEach(card => card.style.display = 'none');
+
+            const start = (page - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            for (let i = start; i < end && i < cards.length; i++) {
+                cards[i].style.display = 'flex';
             }
-            resultText.innerText = (val === 350) 
-                ? "Đúng rồi! Bạn thật thông minh! 🎉" 
-                : "Chưa đúng, hãy thử một số khác nha! 🤔";
+
+            renderPaginationControls(listId, paginationId, totalPages, page);
+            
+            if(!isInit) {
+                const parentPage = listContainer.closest('.page');
+                if(parentPage) {
+                    window.scrollTo({ top: parentPage.offsetTop - 50, behavior: 'smooth' });
+                }
+            }
         }
+
+        function renderPaginationControls(listId, paginationId, totalPages, currentPage) {
+            const container = document.getElementById(paginationId);
+            if (!container) return;
+            
+            let html = '';
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="renderPageList('${listId}', '${paginationId}', ${currentPage - 1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="renderPageList('${listId}', '${paginationId}', ${i})">${i}</button>`;
+            }
+            
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="renderPageList('${listId}', '${paginationId}', ${currentPage + 1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+            
+            container.innerHTML = html;
+        }
+
+        // CHẠY CÁC HÀM KHỞI TẠO KHI LOAD XONG WEB
+        document.addEventListener("DOMContentLoaded", () => {
+            renderPageList('product-list', 'product-pagination-controls', 1, true);
+            renderPageList('sale-list', 'sale-pagination-controls', 1, true);
+        });
     </script>
 </body>
 </html>
