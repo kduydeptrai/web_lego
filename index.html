@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMB Agency - LEGO Block World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f7ff;
+            --header-bg: #2c3e50;
+            --card-bg: #ffffff;
+            --accent: #ffcc00;
+            --button-bg: #e74c3c;
+            --text: #2c3e50;
+        }
+
+        body { font-family: 'Roboto Condensed', sans-serif; margin: 0; background-color: var(--bg-color); color: var(--text); }
+        h1, h2, h3, nav a, .btn-buy, .btn-buy-now { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+
+        header { background: var(--header-bg); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; color: white; border-bottom: 5px solid var(--accent); }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: 700; cursor: pointer; outline: none; }
+        nav a:hover, nav a:focus { color: var(--accent); }
+
+        .page { display: none; padding: 20px; max-width: 1100px; margin: auto; min-height: 50vh; }
+        .active { display: block; }
+
+        /* GRID DÀNH CHO GIAO DIỆN MỚI */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; margin-top: 20px; }
+        
+        /* CSS CHO THẺ SẢN PHẨM MỚI (book-card) */
+        .book-card { 
+            background: var(--card-bg); 
+            padding: 20px; 
+            border-radius: 20px; 
+            border: 2px solid #ddd; 
+            transition: all 0.4s ease; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        }
+        .book-card:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); 
+        }
+        .book-img-box { cursor: pointer; text-align: center; }
+        .book-img-box img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
+        .book-info h3 { font-size: 1.2em; margin: 15px 0 5px; color: var(--header-bg); }
+        .book-author { color: #64748b; font-size: 0.95em; margin: 0 0 15px; font-weight: bold; }
+        
+        .price-box { margin-bottom: 15px; text-align: center; }
+        .current-price { color: var(--button-bg); font-weight: 700; font-size: 1.4em; font-family: 'Oswald', sans-serif; }
+        
+        .cta-box { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; transition: 0.3s; font-family: 'Oswald', sans-serif; text-transform: uppercase; border: none; font-size: 0.9em; }
+        .btn-fill { background: var(--header-bg); color: white; border: 2px solid var(--header-bg); }
+        .btn-fill:hover { background: var(--button-bg); border-color: var(--button-bg); }
+
+        /* TRANG CHI TIẾT SẢN PHẨM CẬP NHẬT */
+        .detail-container { background: white; padding: 40px; border-radius: 25px; display: flex; gap: 40px; margin-top: 20px; border: 2px solid #ddd; }
+        .detail-left { flex: 1; }
+        .detail-left img { width: 100%; border-radius: 20px; border: 2px solid #ddd; object-fit: cover; }
+        .detail-right { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .d-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 20px; border-radius: 15px; }
+        .d-meta-grid p { margin: 0; font-size: 0.95em; }
+        .btn-buy-now { background: var(--button-bg); color: white; padding: 15px; border: none; cursor: pointer; font-size: 1.2em; font-weight: 700; border-radius: 15px; transition: 0.3s; margin-top: 15px; }
+        .btn-buy-now:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+
+        .game-box { background: white; padding: 30px; border-radius: 25px; text-align: center; margin-top: 20px; border: 2px solid #ddd; }
+        .game-box input { padding: 10px; font-size: 16px; border-radius: 10px; border: 1px solid #ccc; outline: none; }
+        .game-box button { padding: 10px 20px; font-size: 16px; border-radius: 10px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; margin-left: 10px; }
+
+        /* FOOTER */
+        footer { background: #1a1a2e; color: #94a3b8; padding: 60px 20px 30px; margin-top: 80px; }
+        .footer-wrapper { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 50px; }
+        .footer-col h3 { color: #ffffff; margin-bottom: 25px; font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
+        .footer-col h3::after { content: ""; flex: 1; height: 1px; background: var(--accent); opacity: 0.3; }
+        .footer-links-list { list-style: none; padding: 0; }
+        .footer-links-list li { margin-bottom: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .footer-links-list li:hover { color: var(--accent); transform: translateX(5px); }
+        .footer-bottom { text-align: center; margin-top: 60px; padding-top: 30px; border-top: 1px solid #334155; font-size: 0.9em; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .detail-container { flex-direction: column; }
+            header { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area"><h1>🏰 HMB AGENCY</h1></div>
+        <nav>
+            <a tabindex="0" onclick="showPage('home')">Trang chủ</a>
+            <a tabindex="0" onclick="showPage('products')">Sản phẩm</a>
+            <a tabindex="0" onclick="showPage('hot-sale')">Hot & Sale</a>
+        </nav>
+    </header>
+
+    <div id="home" class="page active">
+        <h2>Chào mừng đến với thế giới LEGO!</h2>
+        <div class="game-box">
+            <h3>🎮 Mini Game: Thử thách lắp ghép</h3>
+            <p>Đoán số mảnh ghép (100 - 500):</p>
+            <input type="number" id="guess" placeholder="Nhập số..." min="100" max="500">
+            <button onclick="checkGame()">Kiểm tra</button>
+            <p id="result" style="margin-top: 15px; font-weight: bold; color: var(--button-bg);"></p>
+        </div>
+    </div>
+
+    <div id="products" class="page">
+        <h2>Danh sách sản phẩm</h2>
+        <div class="grid" id="product-list">
+            
+            <div class="book-card">
+                <div>
+                    <div class="book-img-box" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">
+                        <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80" alt="Bìa sách">
+                    </div>
+                    <div class="book-info">
+                        <h3>LEGO Star Wars 75192 Millennium Falcon</h3>
+                        <p class="book-author">LEGO Star Wars</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="price-box"><span class="current-price">21.990.000 đ</span></div>
+                    <div class="cta-box">
+                        <button class="btn btn-fill" onclick="navigateToDetail('LEGO Star Wars 75192 Millennium Falcon', 'LEGO Star Wars', '21.990.000 đ', 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80', 'Mô hình phi thuyền Millennium Falcon huyền thoại và chi tiết nhất của vũ trụ Star Wars.', '16+', '7541 mảnh ghép', 'Ultimate Collector Series', '2017', '21 x 84 x 56 cm', 'Nhựa ABS', '7 Minifigures')">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </div>
+
+    <div id="hot-sale" class="page">
+        <h2>Sản phẩm Hot & Sale</h2>
+        <div class="grid" id="sale-list">
+            </div>
+    </div>
+
+    <div id="detail-page" class="page">
+        <a tabindex="0" onclick="showPage('products')" style="cursor:pointer; color:var(--header-bg); font-weight:bold;">⬅ Quay lại danh sách</a>
+        <div class="detail-container">
+            <div class="detail-left">
+                <img id="d-img" src="" alt="Lego">
+            </div>
+            <div class="detail-right">
+                <h1 id="d-name" style="margin-bottom: 5px;">Tên sản phẩm</h1>
+                <p id="d-category" class="book-author" style="margin-top: 0; font-size: 1.1em;">Danh mục</p>
+                <h2 id="d-price" style="color:var(--button-bg); font-size: 2em; margin: 10px 0;"></h2>
+                
+                <p style="line-height: 1.6;"><b>Mô tả:</b> <span id="d-desc"></span></p>
+                
+                <div class="d-meta-grid">
+                    <p><b>🧩 Số mảnh ghép:</b> <span id="d-pieces"></span></p>
+                    <p><b>👤 Độ tuổi:</b> <span id="d-age"></span></p>
+                    <p><b>🏷️ Series:</b> <span id="d-series"></span></p>
+                    <p><b>📅 Năm phát hành:</b> <span id="d-year"></span></p>
+                    <p><b>📏 Kích thước:</b> <span id="d-dim"></span></p>
+                    <p><b>🧪 Chất liệu:</b> <span id="d-material"></span></p>
+                    <p><b>🧍 Minifigures:</b> <span id="d-mini"></span></p>
+                </div>
+
+                <button class="btn-buy-now">Tiến Hành Thanh Toán!</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-wrapper">
+            <div class="footer-col">
+                <h3>🏰 HMB Agency</h3>
+                <p>Đối tác thiết kế và phát triển giải pháp số. Chúng tôi mang đến trải nghiệm LEGO đỉnh cao.</p>
+                <p>📞 <b>Hotline:</b> 0855 555 140</p>
+            </div>
+            <div class="footer-col">
+                <h3>📂 Danh mục</h3>
+                <ul class="footer-links-list">
+                    <li onclick="showPage('home')"><span>▶</span> Trang chủ</li>
+                    <li onclick="showPage('products')"><span>▶</span> Sản phẩm LEGO</li>
+                    <li onclick="showPage('hot-sale')"><span>▶</span> Hot & Sale</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 HMB Agency. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateToDetail(name, category, price, img, desc, age, pieces, series, year, dim, material, mini) {
+            document.getElementById('d-name').innerText = name;
+            document.getElementById('d-category').innerText = category;
+            document.getElementById('d-price').innerText = price;
+            document.getElementById('d-img').src = img;
+            document.getElementById('d-desc').innerText = desc;
+            document.getElementById('d-age').innerText = age;
+            document.getElementById('d-pieces').innerText = pieces;
+            document.getElementById('d-series').innerText = series;
+            document.getElementById('d-year').innerText = year;
+            document.getElementById('d-dim').innerText = dim;
+            document.getElementById('d-material').innerText = material;
+            document.getElementById('d-mini').innerText = mini;
+            
+            showPage('detail-page');
+        }
+
+        function checkGame() {
+            let val = Number(document.getElementById('guess').value);
+            let resultText = document.getElementById('result');
+            if (!val) {
+                resultText.innerText = "Vui lòng nhập một số nhé! 😅";
+                return;
+            }
+            resultText.innerText = (val === 350) 
+                ? "Đúng rồi! Bạn thật thông minh! 🎉" 
+                : "Chưa đúng, hãy thử một số khác nha! 🤔";
+        }
+    </script>
+</body>
+</html>
